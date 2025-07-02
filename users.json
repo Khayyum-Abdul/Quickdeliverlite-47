@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Abdul Khayyum",
+        "email": "abc@quickdeliver.local",
+        "password": "scrypt:32768:8:1$0ibEW2L05gGyej0b$54761a204d475c0ca85ae4c53dd54b08927fd64f97a75f9721b5a0e4942f761e753aa3ad36f5aea39517d54905be3cd1aab1efdff92d301e2676e70c39043c75",
+        "role": "Customer"
+    },
+    {
+        "name": "Abdul Khayyum",
+        "email": "def@quickdeliver.local",
+        "password": "scrypt:32768:8:1$RWSSVqHPl7Mzxb1X$cd0ce553b4708e0df531dc84aa9aef8ca0abb96dbc4db4ea21a7adf18d36065aeff7c4f224f5d4c67cd914abcced411b01157ae5a0f9cec2fb476074ca52199e",
+        "role": "Driver"
+    }
+]

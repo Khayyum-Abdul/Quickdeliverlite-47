@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue: #0ef;
+            --blue-d: #00c8ff;
+            --green: #28a745;
+        }
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #0d1117;
+            color: #f0f6fc;
+            margin: 0;
+            padding: 40px;
+        }
+        h2, h3 {
+            color: #58a6ff;
+        }
+        .info {
+            background: #161b22;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px var(--blue);
+            margin-bottom: 30px;
+        }
+        .info p {
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #161b22;
+            box-shadow: 0 0 10px var(--blue);
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #30363d;
+            text-align: left;
+        }
+        th {
+            background-color: #0d1117;
+            color: #58a6ff;
+        }
+        tr:hover {
+            background-color: #00c8ff;
+            color: #000;
+        }
+        .rating {
+            font-weight: bold;
+            color: var(--green);
+        }
+        .empty {
+            font-style: italic;
+            color: gray;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>My Profile</h2>
+
+    <div class="info">
+        <p><strong>Name:</strong> {{ user.name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Role:</strong> {{ user.role }}</p>
+    </div>
+
+    {% if user.role == 'Customer' %}
+        <h3>Your Feedback History</h3>
+        {% if deliveries %}
+            <table>
+                <tr>
+                    <th>Delivery ID</th>
+                    <th>Status</th>
+                    <th>Feedback</th>
+                    <th>Rating</th>
+                    <th>Comment</th>
+                </tr>
+                {% for d in deliveries %}
+                <tr>
+                    <td>{{ d.id }}</td>
+                    <td>{{ d.status }}</td>
+                    <td>
+                        {% if feedback_map[d.id] %}
+                            ✅
+                        {% else %}
+                            ❌
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if feedback_map[d.id] %}
+                            <span class="rating">{{ feedback_map[d.id].rating }}/5</span>
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                    <td>{{ feedback_map[d.id].comment if feedback_map[d.id] else '—' }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p class="empty">No deliveries yet.</p>
+        {% endif %}
+
+    {% elif user.role == 'Driver' %}
+        <h3>Feedback Received (as Driver)</h3>
+        {% if feedbacks %}
+            <table>
+                <tr>
+                    <th>Delivery ID</th>
+                    <th>Rating</th>
+                    <th>Comment</th>
+                    <th>Date</th>
+                </tr>
+                {% for fb in feedbacks %}
+                <tr>
+                    <td>{{ fb.delivery.id }}</td>
+                    <td class="rating">{{ fb.rating }}/5</td>
+                    <td>{{ fb.comment or '—' }}</td>
+                    <td>{{ fb.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p class="empty">No feedback received yet.</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

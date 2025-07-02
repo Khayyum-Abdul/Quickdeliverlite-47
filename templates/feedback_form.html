@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Leave Feedback</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue:   #0ef;
+            --blue-d: #00c8ff;
+            --green:  #28a745;
+            --green-d:#218838;
+            --gray:   #9aa0a6;
+        }
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #0d1117;
+            color: #f0f6fc;
+            padding: 40px;
+            margin: 0;
+        }
+        h2 {
+            color: #58a6ff;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 30px;
+            color: #c9d1d9;
+        }
+        form {
+            width: 100%;
+            max-width: 600px;
+            background: #161b22;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #0ef;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+        .rating-stars {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: start;
+            margin-bottom: 20px;
+        }
+        .rating-stars input {
+            display: none;
+        }
+        .rating-stars label {
+            font-size: 2rem;
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .rating-stars input:checked ~ label,
+        .rating-stars label:hover,
+        .rating-stars label:hover ~ label {
+            color: #f5c518;
+        }
+        textarea {
+            width: 100%;
+            max-width: 100%;
+            padding: 10px;
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            background-color: #0d1117;
+            color: #f0f6fc;
+            margin-bottom: 20px;
+            resize: none;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: var(--green);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: var(--green-d);
+        }
+    </style>
+</head>
+<body>
+    <h2>Leave Feedback for Delivery #{{ delivery.id }}</h2>
+    <p>Pickup: {{ delivery.pickup_address }} → Drop-off: {{ delivery.dropoff_address }}</p>
+
+    <form method="POST">
+        <label for="rating">Rating:</label>
+        <div class="rating-stars">
+            <input type="radio" id="star5" name="rating" value="5" required><label for="star5">★</label>
+            <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+            <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+            <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+            <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+        </div>
+
+        <label for="comment">Comment (optional):</label>
+        <textarea name="comment" rows="4" placeholder="Any feedback for the delivery..."></textarea>
+
+        <button type="submit">Submit Feedback</button>
+    </form>
+</body>
+</html>

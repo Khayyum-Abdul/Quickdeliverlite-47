@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Delivery Requests</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blue:   #0ef;
+            --blue-d: #00c8ff;
+            --green:  #28a745;
+            --green-d:#218838;
+            --gray:   #9aa0a6;
+        }
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #0d1117;
+            color: #f0f6fc;
+            margin: 0;
+            padding: 40px;
+        }
+        h2 {
+            color: #58a6ff;
+            margin-bottom: 20px;
+        }
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .nav-left, .nav-center, .nav-right {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .nav-center {
+            justify-content: center;
+            flex: 1;
+        }
+        a.nav-btn {
+            text-decoration: none;
+            background: var(--blue);
+            color: #000;
+            padding: 8px 14px;
+            border-radius: 5px;
+            font-weight: bold;
+            box-shadow: 0 0 10px var(--blue);
+            transition: 0.3s;
+        }
+        a.nav-btn:hover {
+            background: var(--blue-d);
+            box-shadow: 0 0 20px var(--blue);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #161b22;
+            box-shadow: 0 0 10px #0ef;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 14px;
+            border: 1px solid #30363d;
+        }
+        th {
+            background: #21262d;
+            color: #58a6ff;
+            text-align: left;
+        }
+        tr:hover {
+            background: #1b1f24;
+        }
+        button {
+            padding: 6px 12px;
+            background: var(--green);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: var(--green-d);
+        }
+        button[disabled] {
+            background: var(--gray);
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h2>Pending Delivery Requests</h2>
+
+    <div class="nav-bar">
+        <div class="nav-left">
+            <a class="nav-btn" href="{{ url_for('driver_dashboard') }}">🏠 Dashboard</a>
+        </div>
+        <div class="nav-center">
+            <a class="nav-btn" href="{{ url_for('my_deliveries') }}">📦 My Deliveries</a>
+        </div>
+        <div class="nav-right">
+            <a class="nav-btn" href="{{ url_for('logout') }}">🚪 Logout</a>
+        </div>
+    </div>
+
+    {% if deliveries %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Pickup ➜ Drop-off</th>
+                    <th>Note</th>
+                    <th>Customer ID</th>
+                    <th>Created</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for d in deliveries %}
+                <tr>
+                    <td>{{ d.id }}</td>
+                    <td>{{ d.pickup_address }} ➜ {{ d.dropoff_address }}</td>
+                    <td>{{ d.package_note or '-' }}</td>
+                    <td>{{ d.customer_id }}</td>
+                    <td>{{ d.created_at.strftime('%Y‑%m‑%d %H:%M') }}</td>
+                    <td>
+                        {% if d.driver_id %}
+                            <button disabled>Taken</button>
+                        {% else %}
+                            <form method="POST" action="{{ url_for('accept_delivery', delivery_id=d.id) }}" onsubmit="return confirm('Accept this delivery?');">
+                                <button type="submit">Accept</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No pending requests at the moment.</p>
+    {% endif %}
+</body>
+</html>

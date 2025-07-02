@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Delivery Request</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #f0f6fc;
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            padding: 40px;
+        }
+
+        h2 {
+            color: #58a6ff;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #c9d1d9;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            color: #f0f6fc;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        button {
+            background-color: #0ef;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            box-shadow: 0 0 10px #0ef;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #00c8ff;
+            box-shadow: 0 0 20px #0ef;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <h2>Create Delivery Request</h2>
+    <form method="POST">
+        <label>Pickup Address:</label>
+        <input type="text" name="pickup" required>
+
+        <label>Dropoff Address:</label>
+        <input type="text" name="dropoff" required>
+
+        <label>Package Note:</label>
+        <textarea name="note" placeholder="Optional note..."></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

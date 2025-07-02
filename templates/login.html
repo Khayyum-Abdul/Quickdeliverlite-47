@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Login - QuickDeliver Lite</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #0ef;
+      --blue-d: #00c8ff;
+    }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background-color: #0d1117;
+      color: #f0f6fc;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      background-color: #161b22;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px var(--blue);
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      text-align: center;
+      color: var(--blue);
+      margin-bottom: 30px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+      color: #c9d1d9;
+    }
+    .password-wrapper {
+      position: relative;
+      width: 100%;
+    }
+    .password-wrapper input {
+      padding-right: 30px;
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      background-color: #0d1117;
+      color: #f0f6fc;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--blue);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0;
+      line-height: 1;
+    }
+    input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      background-color: #0d1117;
+      color: #f0f6fc;
+    }
+    button {
+      width: 100%;
+      background-color: var(--blue);
+      color: black;
+      padding: 12px;
+      margin-top: 25px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--blue);
+      transition: 0.3s ease;
+    }
+    button:hover {
+      background-color: var(--blue-d);
+      box-shadow: 0 0 20px var(--blue);
+    }
+    p {
+      text-align: center;
+      margin-top: 20px;
+      color: #c9d1d9;
+    }
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+
+    <form method="POST">
+      <label for="email">Email:</label>
+      <input type="email" name="email" required>
+
+      <label for="password">Password:</label>
+      <div class="password-wrapper">
+        <input type="password" name="password" id="password" required>
+        <span class="toggle-password" onclick="togglePassword()">👁</span>
+      </div>
+
+      <button type="submit">Login</button>
+    </form>
+
+    <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const pwField = document.getElementById("password");
+      const toggleBtn = document.querySelector(".toggle-password");
+      if (pwField.type === "password") {
+        pwField.type = "text";
+        toggleBtn.textContent = "🙈";
+      } else {
+        pwField.type = "password";
+        toggleBtn.textContent = "👁";
+      }
+    }
+  </script>
+</body>
+</html>
