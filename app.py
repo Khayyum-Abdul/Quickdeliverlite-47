@@ -1,4 +1,3 @@
-# QuickDeliver Lite – Week 6 (driver approval + OTP + admin panel)
 
 import os, random, string
 from datetime import datetime, timedelta
@@ -18,12 +17,11 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "secret123")
 
-# SQLAlchemy
+
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///quickdeliver.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
-# Mail
 app.config["MAIL_SERVER"]   = os.getenv("MAIL_SERVER", "smtp.gmail.com")
 app.config["MAIL_PORT"]     = int(os.getenv("MAIL_PORT", 587))
 app.config["MAIL_USE_TLS"]  = True
@@ -37,9 +35,7 @@ with app.app_context():
 STATUS_FLOW   = {"Accepted": "In Transit", "In Transit": "Delivered"}
 ALLOWED_ROLES = ["Customer", "Driver"]
 
-# ───────────────────────────────
-# Helpers & decorators
-# ───────────────────────────────
+
 def current_user():
     uid = session.get("user_id")
     return User.query.get(uid) if uid else None
@@ -71,9 +67,7 @@ def send_otp(address, otp):
     )
     mail.send(msg)
 
-# ───────────────────────────────
-# Auth routes
-# ───────────────────────────────
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
@@ -194,9 +188,6 @@ def logout():
     session.clear()
     return redirect(url_for("home"))
 
-# ───────────────────────────────
-# Admin
-# ───────────────────────────────
 @app.route("/admin")
 @role_required("Admin")
 def admin_dashboard():
@@ -217,9 +208,7 @@ def approve_driver(user_id):
         flash(f"{u.name} has been approved as a driver.")
     return redirect(url_for("admin_dashboard"))
 
-# ───────────────────────────────
-# Customer routes
-# ───────────────────────────────
+
 @app.route("/customer")
 @role_required("Customer")
 def customer_dashboard():
@@ -244,9 +233,7 @@ def create_request():
         return redirect(url_for("customer_dashboard"))
     return render_template("create_request.html")
 
-# ───────────────────────────────
-# Driver routes
-# ───────────────────────────────
+
 @app.route("/driver")
 @role_required("Driver")
 def driver_dashboard():
@@ -292,9 +279,6 @@ def my_deliveries():
     return render_template("my_deliveries.html",
                            deliveries=deliveries, STATUS_FLOW=STATUS_FLOW)
 
-# ───────────────────────────────
-# Feedback & profile
-# ───────────────────────────────
 @app.route("/feedback/<int:delivery_id>", methods=["GET", "POST"])
 @role_required("Customer")
 def leave_feedback(delivery_id):
@@ -347,9 +331,6 @@ def profile():
 
     return redirect(url_for("admin_dashboard"))
 
-# ───────────────────────────────
-# Main
-# ───────────────────────────────
 if __name__ == "__main__":
     app.run(debug=True)
  
