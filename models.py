@@ -3,9 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-# ─────────────────────────────
-# User model
-# ─────────────────────────────
 class User(db.Model):
     __tablename__ = "user"
 
@@ -16,7 +13,6 @@ class User(db.Model):
     role        = db.Column(db.String(20), nullable=False)  # Customer | Driver | Admin
     is_approved = db.Column(db.Boolean, default=True)       # ← Required for driver approval
 
-    # ── Relationships ──────────────────────────────────────────
     deliveries_created = db.relationship(
         "DeliveryRequest",
         backref="customer",
@@ -34,9 +30,6 @@ class User(db.Model):
     def __repr__(self) -> str:
         return f"<User {self.id} | {self.email} | {self.role} | approved={self.is_approved}>"
 
-# ─────────────────────────────
-# DeliveryRequest model
-# ─────────────────────────────
 class DeliveryRequest(db.Model):
     __tablename__ = "delivery_request"
 
@@ -47,11 +40,9 @@ class DeliveryRequest(db.Model):
     status          = db.Column(db.String(20), default="Pending")  # Pending → Accepted → In Transit → Delivered
     created_at      = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # ── Foreign Keys ────────────────────────────────────────────
     customer_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     driver_id   = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
 
-    # One-to-one feedback
     feedback = db.relationship(
         "Feedback",
         uselist=False,
@@ -62,9 +53,7 @@ class DeliveryRequest(db.Model):
     def __repr__(self) -> str:
         return f"<Delivery #{self.id} | {self.status}>"
 
-# ─────────────────────────────
-# Feedback model
-# ─────────────────────────────
+
 class Feedback(db.Model):
     __tablename__ = "feedback"
 
@@ -79,7 +68,6 @@ class Feedback(db.Model):
     comment     = db.Column(db.String(200))
     created_at  = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # back-reference
     delivery = db.relationship("DeliveryRequest", back_populates="feedback")
 
     def __repr__(self) -> str:
