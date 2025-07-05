@@ -1,5 +1,5 @@
 
-# QuickDeliverLite
+# 🚚QuickDeliverLite
 
 QuickDeliverLite is a simple Flask web app for managing delivery requests. Customers can request deliveries, drivers can accept and update status, and admins can monitor the system.
 
